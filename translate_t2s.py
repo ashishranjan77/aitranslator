@@ -17,7 +17,6 @@ def translate(text_translator, InputText, target_language):
     input_text_elements = [ InputTextItem(text = InputText) ]
     try:
         response = text_translator.translate(content = input_text_elements, to = [target_language])
-        print(f"response is: {response[0]}")
         translation = response[0] if response else None
         if translation:
             for translated_text in translation.translations:
@@ -28,13 +27,12 @@ def translate(text_translator, InputText, target_language):
 
 def find_lng_key(list, lang):
     for key, value in list:
-        print(f"searching for {lang} in : {key}: {value}")
         if value.get('name') == lang:
-            print(f"found match for value in : {key}: {value}")
             return key
     return None
 
 def main():
+    # Check for environment keys
     key_var_name = 'TRANSLATOR_TEXT_SUBSCRIPTION_KEY'
     if not key_var_name in os.environ:
         raise Exception('Please set/export the environment variable: {}'.format(key_var_name))
@@ -68,7 +66,6 @@ def main():
         if initial_text is not None:
             translated_text = translate(text_translator, initial_text, find_lng_key(nl, language.split(':')[1].strip()))
             st.text_area(label="Translated_text", value= translated_text, disabled=True)
-            
             #Convert translated text into audio.
             speech_config = speechsdk.SpeechConfig(subscription=os.environ.get('SPEECH_KEY'), region=os.environ.get('SPEECH_REGION'))
             audio_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=True)
