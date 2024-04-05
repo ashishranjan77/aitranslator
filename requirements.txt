@@ -1,0 +1,5 @@
+streamlit
+azure-cognitiveservices-speech
+azure-ai-translation-text
+azure-core
+pydub
